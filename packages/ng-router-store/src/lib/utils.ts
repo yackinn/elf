@@ -1,7 +1,7 @@
 import { select } from '@ngneat/elf';
 import { filter, map, Observable, OperatorFunction } from 'rxjs';
 
-export function slice<K extends { state: any }>(
+export function sliceState<K extends { state: any }>(
   section: keyof K['state'] extends never ? any : keyof K['state']
 ): (source: Observable<K>) => Observable<K['state'][typeof section]> {
   return (source: Observable<K>) => {

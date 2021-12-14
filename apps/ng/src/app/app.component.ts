@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterRepository } from '../../../../packages/ng-router-store/src/lib/router.repository';
+import { RouterRepository } from '@elf/ng-router-store';
 
 @Component({
   selector: 'elf-root',
@@ -10,8 +10,11 @@ export class AppComponent {
   title = 'ng';
 
   constructor(private routerRepository: RouterRepository) {
-    routerRepository.selectNavigationError().subscribe((error) => {
-      console.log('test', error);
-    });
+    routerRepository
+      .selectParams('id')
+      .subscribe((param) => console.log(param));
+    routerRepository
+      .selectQueryParams('test')
+      .subscribe((queryParam) => console.log(queryParam));
   }
 }
