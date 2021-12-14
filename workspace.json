@@ -7,6 +7,7 @@
     "entities": "packages/entities",
     "mocks": "packages/mocks",
     "ng": "apps/ng",
+    "ng-router-store": "packages/ng-router-store",
     "pagination": "packages/pagination",
     "persist-state": "packages/persist-state",
     "react": "apps/react",
