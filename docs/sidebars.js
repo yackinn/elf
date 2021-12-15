@@ -52,6 +52,14 @@ module.exports = {
         'miscellaneous/registry',
       ]
     },
+    {
+      type: 'category',
+      label: 'Angular',
+      collapsed: true,
+      items: [
+        'angular/angular-router-store',
+      ]
+    },
     'recipes',
     'faq',
   ],
