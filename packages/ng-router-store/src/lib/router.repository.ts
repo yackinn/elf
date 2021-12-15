@@ -33,8 +33,17 @@ const store = new Store({ state, name: 'router', config });
 export class RouterRepository {
   constructor(private routerStateService: RouterStateService) {}
 
-  select<R>(cb: (state: RouterState) => R): Observable<R> {
-    return store.pipe(select(cb));
+  select(): Observable<RouterState>;
+  select<R>(cb: (state: RouterState) => R): Observable<R>;
+  select<R>(
+    cb?: (state: RouterState) => R
+  ): Observable<typeof cb extends never ? RouterState : R> {
+    const callback = cb ? cb : (state: any) => state;
+    return store.pipe(select(callback));
+  }
+
+  getValue() {
+    return store.getValue();
   }
 
   /**
