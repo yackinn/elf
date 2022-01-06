@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { switchMap } from 'rxjs/operators';
-import { write } from '../../store/mutations';
 import { createState, select, Store, withProps } from '@ngneat/elf';
 import {
   addEntities,
   selectAll,
   selectAllApply,
+  selectEntity,
   updateEntities,
   withEntities,
 } from '@ngneat/elf-entities';
+import { switchMap } from 'rxjs/operators';
+import { selectEntitiesByPredicate } from '../../../../../../packages/entities/src/lib/entity.query';
+import { write } from '../../store/mutations';
 
 interface Todo {
   id: number;
@@ -30,20 +32,27 @@ const store = new Store({ name: 'todos', state, config });
 @Injectable({ providedIn: 'root' })
 export class TodosRepository {
   todos$ = store.pipe(selectAll());
-  filter$ = store.pipe(select((state) => state.filter));
+  filter$ = store.pipe(select((state) => state.entities));
 
   visibleTodos$ = this.filter$.pipe(
     switchMap((filter) => {
       return store.pipe(
         selectAllApply({
-          filterEntity({ completed }) {
-            if (filter === 'ALL') return true;
-            return filter === 'COMPLETED' ? completed : !completed;
-          },
+          // filterEntity({ completed }) {
+          //   if (filter === 'ALL') return true;
+          //   return filter === 'COMPLETED' ? completed : !completed;
+          // },
         })
       );
     })
   );
+
+  selectByTitle(title: Todo['title']) {
+    return store.pipe(
+      selectEntitiesByPredicate((entity) => entity.title === title)
+      // selectEntity(1, {pluck: ""})
+    );
+  }
 
   addTodo(title: Todo['title']) {
     store.update(addEntities({ id: Math.random(), title, completed: false }));

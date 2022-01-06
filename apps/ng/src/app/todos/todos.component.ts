@@ -7,5 +7,9 @@ import { TodosRepository } from './state/todos.repository';
   styleUrls: ['./todos.component.css'],
 })
 export class TodosComponent {
-  constructor(public todosRepo: TodosRepository) {}
+  constructor(public todosRepo: TodosRepository) {
+    todosRepo
+      .selectByTitle('test')
+      .subscribe((result) => console.log('result', result));
+  }
 }
